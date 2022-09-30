@@ -139,7 +139,7 @@
             <div class="feature">
               <img src="https://uploads-ssl.webflow.com/6330f9dbe239121517e39573/63319f33901c1d578fabd062_text-detection.png" height="30" alt="" class="feature-icon" />
               <h3>Auto detect language</h3>
-              <p class="paragraph">Our translator will automatically detect the language of the text that you type in the text </p>
+              <p class="paragraph">Our translator will automatically detect the language of the text that you type in the text area </p>
             </div>
           </div>
           <div class="w-col w-col-3">
@@ -256,7 +256,14 @@
                             success: function( data) 
                             {
                                 //$( '#like'+ catid ).remove();
-                                $( '#field' ).val(data)
+                                var mystring = data;
+                                var mysubstring = mystring.substring(14, 16);
+
+                                $("#field-3").val(mysubstring);
+
+
+
+                                $( '#field' ).val(data);
 
                             }
                         })
