@@ -36,7 +36,7 @@
           <div class="logo-text">Mazda Language Translator</div>
         </a>
         <nav role="navigation" class="nav-menu w-nav-menu">
-          <a href="#features" class="nav-link w-nav-link">How it works</a>
+          {% comment %} <a href="#features" class="nav-link w-nav-link">How it works</a> {% endcomment %}
         </nav>
         <div class="nav-link menu w-nav-button">
           <div class="w-icon-nav-menu"></div>
@@ -68,7 +68,7 @@
         <div class="w-row">
           <div class="w-col w-col-6">
             <h1 class="main-heading">Translate up to 60 international languages</h1>
-            <a href="#" class="button hollow">Learn More</a>
+            {% comment %} <a href="#" class="button hollow">Learn More</a> {% endcomment %}
           </div>
          
 
@@ -139,7 +139,7 @@
             <div class="feature">
               <img src="https://uploads-ssl.webflow.com/6330f9dbe239121517e39573/63319f33901c1d578fabd062_text-detection.png" height="30" alt="" class="feature-icon" />
               <h3>Auto detect language</h3>
-              <p class="paragraph">Our translator will automatically detect the language of the text that you type in the text </p>
+              <p class="paragraph">Our translator will automatically detect the language of the text that you type in the text area </p>
             </div>
           </div>
           <div class="w-col w-col-3">
@@ -178,17 +178,106 @@
 		<![endif]-->
     <script type="text/javascript">
         $(document).ready(function() {
+            translate();
             $("#switchlang").on('click', function (ev) {
                 switchLanguages();
             });
         });
 
     function switchLanguages () {
+        //this will swap the values in the select boxes
         var co=$("#field-3").val();
-        console.log(co)
-        $("#field-3").val($("#field-4").val());
-        $("#field-4").val(co);
+        //console.log("translate from language" + co)
+        $("#field-3").val($("#field-4").val()).change();
+        $("#field-4").val(co).change();
+
+        //$("div.id_100 select").val("val2").change();
+
+        //this will swap the values in thye text areas
+        var co1=$("#field-2").val();
+        //console.log("translate from language text" + co1)
+        $("#field-2").val($("#field").val()).change();
+        $("#field").val(co1).change();
+  
+        //$("#field").val("");
+        translate();
     }
     </script>
+
+    {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> {% endcomment %}
+    <script type="text/javascript">
+        function translate() {
+            
+            $('#field-2').keydown(function(){
+
+            var TextToTranslate = $('#field-2').val();
+            var LanguageToTransFrom = $('#field-3').val();
+            var LanguageToTransTo = $('#field-4').val();
+
+
+            //LanguageToTransFrom
+            //var co =$("#field-2").val();
+            //console.log("text to translate     " + co)
+
+            //LanguageToTransTo
+            //var co1 =$("#field").val();
+            //console.log("tranlated text      " + co1)
+
+            //if LanguageToTransFrom is not empty then directly translate else autodetect
+            if (LanguageToTransTo != ""){
+                if (LanguageToTransFrom != ""){
+                    $.ajax(
+                        {
+                            type:"GET",
+                            url: "/translateText",
+                            data:{
+                                    TextToTranslate: TextToTranslate,
+                                    LanguageToTransFrom: LanguageToTransFrom,
+                                    LanguageToTransTo: LanguageToTransTo
+
+                            },
+                            success: function( data ) 
+                            {
+                                //$( '#like'+ catid ).remove();                               
+                                $( '#field' ).val(data);
+                                console.log(data)
+                            }
+                        })
+                }else{
+                    $.ajax(
+                        {
+                            type:"GET",
+                            url: "/autoDetectText",
+                            data:{
+                                    TextToTranslate: TextToTranslate,
+                                    LanguageToTransTo: LanguageToTransTo
+
+                            },
+                            success: function( data) 
+                            {
+                                //$( '#like'+ catid ).remove();
+                                var mystring = data;
+                                var mysubstring = mystring.substring(14, 16);
+
+                                $("#field-3").val(mysubstring);
+
+
+
+                                $( '#field' ).val(data);
+
+                            }
+                        })
+
+                }
+
+            }else{
+                alert("Language to translate to cannot be empty");
+            }
+
+
+        
+        });
+     }
+</script>
   </body>
 </html>
