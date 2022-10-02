@@ -2,14 +2,17 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import googletrans
 from translate.helpers import load_languages
-from translate.models import LanguagesModel
+from .models import LanguagesModel
 
 # Create your views here.
 
 def homePage(request=None):     
     if request is not None:
-        languages =languagesModel.objects.all()
+        languages =LanguagesModel.objects.all().order_by('name')
         return render(request, "./translate.html", {'languages': languages})
+
+def howItWorksPage(request=None):      
+    return render(request, "./how_it_works.html")
 
 def translateText(request):
     if request.method == 'GET':
