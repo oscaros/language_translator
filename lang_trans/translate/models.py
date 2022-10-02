@@ -2,7 +2,7 @@ from datetime import datetime
 from django.db import models
 
 # Create your models here.
-class languagesModel(models.Model):
+class LanguagesModel(models.Model):
     name = models.TextField(max_length = 200)
     iso_code = models.TextField()
  
@@ -11,7 +11,7 @@ class languagesModel(models.Model):
     def __str__(self):
         return self.name
 
-class votesModel(models.Model):
+class VotesModel(models.Model):
     type = models.CharField(max_length = 200)
     ip = models.TextField()
     date_time = models.DateTimeField()

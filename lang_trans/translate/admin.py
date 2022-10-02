@@ -1,5 +1,6 @@
 from django.contrib import admin
-#from lang_trans.translate.models import languagesModel
+from .models import LanguagesModel, VotesModel
 
 # Register your models here.
-#admin.site.register(languagesModel)
+admin.site.register(LanguagesModel)
+admin.site.register(VotesModel)
